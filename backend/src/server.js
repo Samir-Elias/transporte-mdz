@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 // Importar configuraciones
-const connectDB = require('./config/database');
+const { connectDB, getConnectionStatus, getConnectionStats } = require('./config/database');
 const logger = require('./config/logger');
 
 // Importar rutas
@@ -66,7 +66,11 @@ app.get('/api/health', (req, res) => {
     status: 'OK',
     message: 'Transporte MDZ API funcionando correctamente',
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '1.0.0',
+    database: {
+      status: getConnectionStatus(),
+      stats: getConnectionStats()
+    }
   });
 });
 

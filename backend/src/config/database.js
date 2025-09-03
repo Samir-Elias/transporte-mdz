@@ -3,9 +3,7 @@ const logger = require('./logger');
 
 const connectDB = async () => {
   try {
-    console.log('🔍 Iniciando connectDB...');
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/transporte_mdz';
-    console.log('📋 URI de MongoDB:', mongoURI.substring(0, 50) + '...');
     
     const options = {
       serverSelectionTimeoutMS: 10000,
@@ -17,20 +15,14 @@ const connectDB = async () => {
         deprecationErrors: true,
       }
     };
-    console.log('⚙️ Opciones de conexión configuradas');
 
-    console.log('🔄 Intentando conectar a MongoDB...');
     const conn = await mongoose.connect(mongoURI, options);
-    console.log('✅ Conexión exitosa a MongoDB!');
-    console.log('📍 Host:', conn.connection.host);
-    console.log('🗄️ Database:', conn.connection.name);
     
     logger.info(`✅ MongoDB conectado: ${conn.connection.host}`);
     
     // Configurar eventos de conexión
     mongoose.connection.on('connected', () => {
       logger.info('🟢 Mongoose conectado a MongoDB');
-      console.log('🟢 Evento: Mongoose conectado a MongoDB');
     });
 
     mongoose.connection.on('error', (err) => {
@@ -55,11 +47,6 @@ const connectDB = async () => {
 
     return conn;
   } catch (error) {
-    console.log('❌ ERROR en connectDB:');
-    console.log('🔴 Mensaje:', error.message);
-    console.log('🔴 Nombre:', error.name);
-    console.log('🔴 Stack:', error.stack);
-    
     logger.error('❌ Error conectando a MongoDB:', error.message);
     
     // En desarrollo, intentar conectar a MongoDB local

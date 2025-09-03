@@ -131,14 +131,11 @@ app.use('*', (req, res) => {
 });
 
 // Función para iniciar el servidor
-console.log('🚀 Preparando para iniciar servidor...');
 const startServer = async () => {
   try {
-    console.log('🗄️ Conectando a la base de datos...');
     // Conectar a la base de datos
     await connectDB();
     logger.info('✅ Base de datos conectada exitosamente');
-    console.log('✅ Base de datos conectada exitosamente');
     
     // Iniciar servidor
     app.listen(PORT, () => {
@@ -164,6 +161,4 @@ process.on('SIGINT', () => {
 });
 
 // Iniciar servidor
-console.log('🎯 Llamando a startServer...');
 startServer();
-console.log('🎯 startServer llamado, esperando resultado...');

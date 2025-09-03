@@ -6,12 +6,8 @@ const connectDB = async () => {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/transporte_mdz';
     
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      bufferMaxEntries: 0,
-      bufferCommands: false,
       maxPoolSize: 10,
       serverApi: {
         version: '1',
@@ -58,8 +54,8 @@ const connectDB = async () => {
       logger.info('🔄 Intentando conectar a MongoDB local...');
       try {
         const localConn = await mongoose.connect('mongodb://localhost:27017/transporte_mdz', {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
+          serverSelectionTimeoutMS: 10000,
+          socketTimeoutMS: 45000,
         });
         logger.info('✅ Conectado a MongoDB local');
         return localConn;

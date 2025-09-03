@@ -1,3 +1,13 @@
+// Logging forzado para diagnóstico
+console.log('🚀 Iniciando servidor...');
+console.log('📋 Variables de entorno:');
+console.log('NODE_ENV:', process.env.NODE_ENV || 'NO DEFINIDO');
+console.log('PORT:', process.env.PORT || 'NO DEFINIDO');
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? '✅ Configurada' : '❌ NO CONFIGURADA');
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? '✅ Configurada' : '❌ NO CONFIGURADA');
+console.log('JWT_EXPIRES_IN:', process.env.JWT_EXPIRES_IN || 'NO DEFINIDO');
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL || 'NO DEFINIDO');
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -6,18 +16,33 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+console.log('🔧 Después de cargar dotenv:');
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? '✅ Configurada' : '❌ NO CONFIGURADA');
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? '✅ Configurada' : '❌ NO CONFIGURADA');
+
 // Importar configuraciones
+console.log('📦 Importando configuraciones...');
 const { connectDB, getConnectionStatus, getConnectionStats } = require('./config/database');
+console.log('✅ Database config importada');
 const logger = require('./config/logger');
+console.log('✅ Logger config importado');
 
 // Importar rutas
+console.log('🛣️ Importando rutas...');
 const authRoutes = require('./routes/auth');
+console.log('✅ Auth routes importada');
 const userRoutes = require('./routes/users');
+console.log('✅ User routes importada');
 const routeRoutes = require('./routes/routes');
+console.log('✅ Route routes importada');
 const paymentRoutes = require('./routes/payments');
+console.log('✅ Payment routes importada');
 const notificationRoutes = require('./routes/notifications');
+console.log('✅ Notification routes importada');
 const incidentRoutes = require('./routes/incidents');
+console.log('✅ Incident routes importada');
 const mendotranRoutes = require('./routes/mendotran');
+console.log('✅ Mendotran routes importada');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -131,11 +156,14 @@ app.use('*', (req, res) => {
 });
 
 // Función para iniciar el servidor
+console.log('🚀 Preparando para iniciar servidor...');
 const startServer = async () => {
   try {
+    console.log('🗄️ Conectando a la base de datos...');
     // Conectar a la base de datos
     await connectDB();
     logger.info('✅ Base de datos conectada exitosamente');
+    console.log('✅ Base de datos conectada exitosamente');
     
     // Iniciar servidor
     app.listen(PORT, () => {
@@ -161,4 +189,6 @@ process.on('SIGINT', () => {
 });
 
 // Iniciar servidor
+console.log('🎯 Llamando a startServer...');
 startServer();
+console.log('🎯 startServer llamado, esperando resultado...');
